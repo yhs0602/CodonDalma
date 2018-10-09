@@ -10,3 +10,6 @@ Download base.apk from the link below.
    
    
    Developer high score: 700
+
+
+![image](images/Screenshot_20181009-121943.png)
