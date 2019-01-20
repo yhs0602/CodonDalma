@@ -30,12 +30,22 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 
 	public synchronized void showToast(String s)
 	{
+		//java.security.AlgorithmConstraints ac;
 		if(toast!=null)
 		{
 			toast.cancel();
 		}
-		toast=Toast.makeText(this,s,2);
-		toast.show();
+		if(isDestroyed())
+			return;
+		if(isFinishing())
+			return;
+		try{
+			toast=Toast.makeText(this,s,2);
+			toast.show();
+		}catch(Exception e)
+		{
+			Log.e("ProDalma","",e);
+		}
 	}
 	public void CreateDalmas()
 	{
@@ -117,13 +127,23 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 					++consumer;
 					dalma.alive = false;
 					AddScore(50);
-					DamageHP(-20);
+					try
+					{
+						DamageHP(-20);
+					}
+					catch (InterruptedException e)
+					{}
 				}
 				else
 				{
-					DamageHP(10);
-				}
-				showToast(getName(protein));
+					try
+					{
+						DamageHP(10);
+					}
+					catch (InterruptedException e)
+					{}
+					showToast("That's " + getName(protein));
+				}			
 				codon.reset();
 			}
 		}
@@ -161,7 +181,7 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 		return ;
 	}
 
-	private void  DamageHP(int p0)
+	private void  DamageHP(int p0) throws InterruptedException
 	{
 		// TODO: Implement this method
 		hp -= p0;
@@ -179,6 +199,10 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 		if (hp < 0)
 		{
 			hp = 0;
+			if(!Thread.currentThread().equals(getMainLooper().getThread()))
+			{
+				throw new InterruptedException();
+			}
 			FinishGame();
 		}
 		return ;
@@ -217,16 +241,15 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 
 			while (retry)
 			{			
-				try
-				{
-
-					thread.join();
+				//try
+				//{
+					//thread.join();
 					retry = false;
-				}
-				catch (InterruptedException e)
-				{
+				//}
+				//catch (InterruptedException e)
+				//{
 					break;
-				}
+				//}
 			}
 		}else{
 
@@ -237,7 +260,7 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 					public void run()
 					{
 						// TODO: Implement this method
-						finish();
+						GameActivity.super.onBackPressed();
 						return ;
 					}						
 			});
@@ -302,7 +325,6 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 		tv2=(TextView) findViewById(R.id.gameTextView2);
 		tv3=(TextView) findViewById(R.id.gameTextView3);
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler(){
-
 				@Override
 				public void uncaughtException(Thread p1, Throwable p2)
 				{
@@ -341,6 +363,7 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 		{
 			// TODO: Implement this method
 			long startmills=System.currentTimeMillis();
+			try{
 			while (!interrupted())
 			{
 				long delta=System.currentTimeMillis() - startmills;
@@ -397,6 +420,16 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 						int y=(int)tv.getTranslationY();
 						if (y > 800)
 						{
+							final Dalma tmd=d;
+							runOnUiThread(new Runnable(){
+									@Override
+									public void run()
+									{
+										showToast(tmd.protein.getCodon());
+										return;
+									}			
+							});
+							
 							codon.reset();
 							DamageHP(10);
 							++consumer;
@@ -421,8 +454,13 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 				{
 					break;
 				}
-
+				
 			}
+			}catch(InterruptedException e)
+			{
+				
+			}
+			FinishGame();
 			return ;
 		}
 

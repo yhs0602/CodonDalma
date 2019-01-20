@@ -65,5 +65,23 @@
 
 	</RadioGroup>
 
+	<LinearLayout
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
+		android:orientation="vertical"
+		android:gravity="bottom|center_horizontal">
+
+		<com.google.android.gms.ads.AdView
+			xmlns:ads="http://schemas.android.com/apk/res-auto"
+			android:id="@+id/adView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			ads:adSize="BANNER"
+			ads:adUnitId="ca-app-pub-1064966062299374/1579446841">
+
+		</com.google.android.gms.ads.AdView>
+
+	</LinearLayout>
+
 </LinearLayout>
 

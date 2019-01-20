@@ -6,8 +6,13 @@ import android.os.*;
 import android.view.*;
 import android.widget.*;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 public class MainActivity extends Activity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener
 {
+	private AdView mAdView;
+	
 	public enum NameMode{
 		FULL,
 		SHORT,
@@ -111,6 +116,9 @@ public class MainActivity extends Activity implements View.OnClickListener,Compo
 		rbShort.setOnCheckedChangeListener(this);
 		rbKor.setOnCheckedChangeListener(this);
 		rbFull.setOnCheckedChangeListener(this);
+		mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 		return;
     }
 
