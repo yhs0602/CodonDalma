@@ -1,0 +1,96 @@
+{
+    "logs": [
+        {
+            "outputFile": "D:\\HyeonSeoGitHubProjects\\CodonDalma\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ko\\values-ko.xml",
+            "map": [
+                {
+                    "source": "D:\\HyeonSeoGitHubProjects\\CodonDalma\\app\\src\\main\\res\\values-ko\\strings.xml",
+                    "from": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "59",
+                        "endColumns": "43",
+                        "endOffsets": "98"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "105",
+                        "endColumns": "43",
+                        "endOffsets": "144"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\SAMSUNG\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-16.0.1.aar\\b693a556b538e1813458a35f231c9488\\res\\values-ko\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "179",
+                        "endOffsets": "426"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "149",
+                        "endColumns": "179",
+                        "endOffsets": "324"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\SAMSUNG\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-26.1.0.aar\\698dfda78dd4f3db8aae530bcdf4522e\\res\\values-ko\\values-ko.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "11",
+                        "startColumns": "4",
+                        "startOffsets": "848",
+                        "endColumns": "100",
+                        "endOffsets": "944"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\SAMSUNG\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-ads-17.1.2.aar\\acc950e60bc3bd3bb7af30a958922de9\\res\\values-ko\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "0,0,0,0,0,0,0",
+                        "startOffsets": "197,260,351,411,471,539,624",
+                        "endColumns": "62,90,59,59,67,84,63",
+                        "endOffsets": "259,350,410,470,538,623,687"
+                    },
+                    "to": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "329,396,491,555,619,691,780",
+                        "endColumns": "66,94,63,63,71,88,67",
+                        "endOffsets": "391,486,550,614,686,775,843"
+                    }
+                },
+                {
+                    "source": "D:\\HyeonSeoGitHubProjects\\CodonDalma\\app\\src\\main\\res\\values-ko\\styles.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "57",
+                        "endLines": "3",
+                        "endColumns": "9",
+                        "endOffsets": "132"
+                    },
+                    "to": {
+                        "startLines": "12",
+                        "startColumns": "4",
+                        "startOffsets": "949",
+                        "endLines": "13",
+                        "endColumns": "9",
+                        "endOffsets": "1023"
+                    }
+                }
+            ]
+        }
+    ]
+}
