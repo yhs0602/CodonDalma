@@ -1,6 +1,9 @@
 package com.kyunggi.proteindalma;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class Codon
 {
@@ -261,9 +264,9 @@ public class Codon
 				case Met: return "AUG";
 				case Val: return "GUU, GUC, GUA, GUG";
 				case Ser: return "UCU, UCC, UCA, UCG, AGU, AGC";
-				case Pro: return "CCT, CCC, CCA, CCG";
-				case Thr: return "ACT, ACC, ACA, ACG";
-				case Ala: return "GCT, GCC, GCA, GCG";
+				case Pro: return "CCU, CCC, CCA, CCG";
+				case Thr: return "ACU, ACC, ACA, ACG";
+				case Ala: return "GCU, GCC, GCA, GCG";
 				case Tyr: return "UAU, UAC";
 				case End: return "UAA, UGA, UAG";
 				case His: return "CAU, CAC";

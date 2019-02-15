@@ -1,10 +1,14 @@
 package com.kyunggi.proteindalma;
 
-import android.app.*;
-import android.content.*;
-import android.os.*;
-import android.view.*;
-import android.widget.*;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -12,7 +16,9 @@ import com.google.android.gms.ads.AdView;
 public class MainActivity extends Activity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener
 {
 	private AdView mAdView;
-	
+	private boolean showHint=true;
+	private Button btShowHint;
+
 	public enum NameMode{
 		FULL,
 		SHORT,
@@ -59,6 +65,12 @@ public class MainActivity extends Activity implements View.OnClickListener,Compo
 			case R.id.mainButtonHighScore:
 				showHighScore();
 				break;
+			case R.id.mainButtonShowHint:
+				showHint=!showHint;
+				pref=getSharedPreferences("showHint",MODE_PRIVATE);
+				edit=pref.edit();
+				edit.putBoolean("showHint",showHint);
+				btShowHint.setText("Show Hint? "+showHint);
 		}
 		return ;
 	}
@@ -95,8 +107,10 @@ public class MainActivity extends Activity implements View.OnClickListener,Compo
 		btStart=(Button) findViewById(R.id.mainButtonStart);
 		btHigh=(Button) findViewById(R.id.mainButtonHighScore);
 		btExit=(Button) findViewById(R.id.mainButtonExit);
+		btShowHint = (Button) findViewById(R.id.mainButtonShowHint);
 		btStart.setOnClickListener(this);
 		btHigh.setOnClickListener(this);
+		btShowHint.setOnClickListener(this);
 		btExit.setOnClickListener(new View.OnClickListener(){
 				@Override
 				public void onClick(View p1)
@@ -119,6 +133,8 @@ public class MainActivity extends Activity implements View.OnClickListener,Compo
 		mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+        pref=getSharedPreferences("showHint",MODE_PRIVATE);
+        showHint = pref.getBoolean("showHint",true);
 		return;
     }
 

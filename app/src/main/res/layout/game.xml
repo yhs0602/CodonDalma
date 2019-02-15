@@ -1,13 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="match_parent"
 	android:layout_width="match_parent">
 
 	<ImageView
-		android:layout_height="match_parent"
+		android:id="@+id/imageViewOX"
 		android:layout_width="match_parent"
-		android:src="@android:drawable/ic_delete"/>
+		android:layout_height="match_parent"
+		android:contentDescription="OX"
+		android:src="@android:drawable/ic_delete" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<TextView
+			android:id="@+id/tvHint"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="80sp"
+			android:gravity="center"
+			android:text="TextView" />
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:gravity="center_horizontal|center_vertical"
+		android:orientation="horizontal">
+
+		<TextView
+			android:id="@+id/tvCombo"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="0"
+			android:background="@android:color/holo_blue_bright"
+			android:text="COMBO 0"
+			android:textAllCaps="false"
+			android:textAppearance="@style/TextAppearance.Compat.Notification.Line2.Media"
+			android:textColor="@android:color/holo_purple"
+			android:textSize="36sp"
+			android:textStyle="bold"
+			android:visibility="invisible" />
+	</LinearLayout>
 
 	<LinearLayout
 		android:layout_height="match_parent"

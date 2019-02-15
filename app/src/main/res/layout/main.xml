@@ -30,6 +30,14 @@
 		android:id="@+id/mainButtonHighScore"/>
 
 	<Button
+		android:id="@+id/mainButtonShowHint"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="27dp"
+		android:background="#6EFEFF"
+		android:text="Show Hint?" />
+
+	<Button
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:text="Exit"

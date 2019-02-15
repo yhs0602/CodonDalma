@@ -1,15 +1,28 @@
 package com.kyunggi.proteindalma;
 
-import android.app.*;
-import android.content.*;
-import android.graphics.*;
-import android.os.*;
-import android.util.*;
-import android.view.*;
-import android.widget.*;
-import android.widget.FrameLayout.*;
-import java.util.*;
-import com.kyunggi.proteindalma.Codon.*;
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.os.Bundle;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class GameActivity extends Activity implements View.OnTouchListener,View.OnClickListener
 {
@@ -27,8 +40,13 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 	ArrayList<Dalma> dalmas=new ArrayList<>();
 	ArrayList<TextView> tvDalmas=new ArrayList<>();
 	Codon codon=new Codon();
+    private ImageView ivOX;
+    private int combo=0;
+    private TextView tvCombo;
+    private boolean showHint=true;
+    private TextView tvHint;
 
-	public synchronized void showToast(String s)
+    public synchronized void showToast(String s)
 	{
 		//java.security.AlgorithmConstraints ac;
 		if(toast!=null)
@@ -126,7 +144,14 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 					tv.setVisibility(View.GONE);
 					++consumer;
 					dalma.alive = false;
-					AddScore(50);
+                    combo++;
+                    if(combo>1) {
+                        tvCombo.setText(combo + "COMBO");
+                        tvCombo.setVisibility(View.VISIBLE);
+                    }
+                    AddScore((int) (50*Math.exp(combo)));
+					ivOX.setImageResource(android.R.drawable.star_big_on);
+
 					try
 					{
 						DamageHP(-20);
@@ -138,6 +163,9 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 				{
 					try
 					{
+					    combo=0;
+					    tvCombo.setVisibility(View.INVISIBLE);
+					    ivOX.setImageResource(android.R.drawable.ic_delete);
 						DamageHP(10);
 					}
 					catch (InterruptedException e)
@@ -287,6 +315,8 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 	FrameLayout llDalmas;
 	TextView tv1,tv2,tv3;
 	MainActivity.NameMode nm;
+	int width;
+	int height;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -294,7 +324,11 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.game);
 		pref=getSharedPreferences("save", 0);
-		nm=MainActivity.NameMode.valueOf(pref.getString("NameMode","SHORT"));	
+		nm=MainActivity.NameMode.valueOf(pref.getString("NameMode","SHORT"));
+		pref=getSharedPreferences("showHint",MODE_PRIVATE);
+		showHint=pref.getBoolean("showHint",true);
+		tvHint = (TextView) findViewById(R.id.tvHint);
+		tvHint.setVisibility(showHint?View.VISIBLE:View.GONE);
 		btU = (Button) findViewById(R.id.gameButtonU);
 		btC = (Button) findViewById(R.id.gameButtonC);
 		btA = (Button) findViewById(R.id.gameButtonA);
@@ -314,6 +348,8 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 		btSave = (Button) findViewById(R.id.gameButtonSave);
 		btExit = (Button) findViewById(R.id.gameButtonExit);
 		btResume = (Button) findViewById(R.id.gameButtonResume);
+		ivOX = (ImageView) findViewById(R.id.imageViewOX);
+		tvCombo = (TextView) findViewById(R.id.tvCombo);
 		btRetry.setOnClickListener(this);
 		btSave.setOnClickListener(this);
 		btExit.setOnClickListener(this);
@@ -333,6 +369,11 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 					return ;
 				}
 			});
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		width = size.x;
+		height = size.y;
 		start();
 		return ;
 	}
@@ -349,6 +390,7 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 		reader = 0;
 		consumer = 0;
 		currentTime = 0;
+		combo=0;
 		CreateDalmas();
 		thread.start();
 	}
@@ -368,7 +410,7 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 			{
 				long delta=System.currentTimeMillis() - startmills;
 				DamageHP((int)delta / 10000);
-				Dalma toSpawn=dalmas.get(reader);
+				final Dalma toSpawn=dalmas.get(reader);
 				if (toSpawn.spawntime < delta)
 				{
 					tvDalmas.add(new TextView(GameActivity.this.getApplicationContext()));
@@ -389,11 +431,15 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 							{
 								// TODO: Implement this method
 								llDalmas.addView(tv, 0, lp);
+								if(showHint)
+                                {
+                                    tvHint.setText("Hint:"+toSpawn.protein.getCodon());
+                                }
 								return ;
 							}
 						});
 
-					;
+
 					toSpawn.alive = true;
 					++reader;
 					if (reader >= dalmas.size())
@@ -418,10 +464,10 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 							});
 						
 						int y=(int)tv.getTranslationY();
-						if (y > 800)
+						if (y > height-200)
 						{
 							final Dalma tmd=d;
-							runOnUiThread(new Runnable(){
+							/*runOnUiThread(new Runnable(){
 									@Override
 									public void run()
 									{
@@ -429,7 +475,7 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 										return;
 									}			
 							});
-							
+							*/
 							codon.reset();
 							DamageHP(10);
 							++consumer;
@@ -485,7 +531,6 @@ public class GameActivity extends Activity implements View.OnTouchListener,View.
 		{
 			case KOR:
 				return protein.getKor();
-
 			case FULL:
 				return protein.getFull();
 			case SHORT:
